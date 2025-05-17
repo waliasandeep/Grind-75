@@ -1,0 +1,31 @@
+class TreeNode:
+    def __init__(self, val = 0, left = None, right = None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+class Solution:
+    def maxPathSum(self, root: TreeNode) -> int:
+        self.maxSum = float('-inf')
+
+        def dfs(node: TreeNode) -> int:
+            if not node:
+                return 0
+            left_max = max(dfs(node.left), 0)
+            right_max = max(dfs(node.right), 0)
+
+            current_max = node.val + left_max + right_max
+            
+            self.maxSum = max(self.maxSum, current_max)
+
+            return node.val + max(left_max, right_max)
+        
+        dfs(root)
+        return self.maxSum
+
+if __name__ == "__main__":
+    tree = TreeNode(1)
+    tree.left = TreeNode(2)
+    tree.right = TreeNode(3)
+    sol = Solution()
+    print(sol.maxPathSum(tree))
